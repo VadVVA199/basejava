@@ -14,7 +14,7 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
-        if (countResume < 10000) {
+        if (countResume < storage.length) {
             storage[countResume] = r;
             countResume++;
             System.out.println("Resume saved to database");
@@ -36,6 +36,7 @@ public class ArrayStorage {
         for (int i = 0; i < countResume; i++) {
             if (storage[i].uuid.equals(uuid)) {
                 System.arraycopy(storage, i + 1, storage, i, countResume - (i + 1));
+                storage[countResume - 1] = null;
                 countResume--;
                 System.out.println("This resume has been deleted");
                 return;
