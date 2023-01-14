@@ -7,31 +7,18 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
-    public void save(Resume r) {
-        if (countResume == storage.length) {
-            System.out.println(r.getUuid() + " resume cannot be saved there is no place in the database");
-        } else if (getIndex(r.getUuid()) >= 0) {
-            System.out.println(r.getUuid() + " is already in the database");
-        } else {
-            storage[countResume] = r;
-            countResume++;
-            sort(storage);
-            System.out.println(r.getUuid() + " resume saved to database");
-        }
+    public void saveResume(Resume r) {
+        storage[countResume] = r;
+        countResume++;
+        sort(storage);
     }
 
     @Override
-    public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index >= 0) {
-            storage[index] = storage[countResume - 1];
-            storage[countResume - 1] = null;
-            countResume--;
-            sort(storage);
-            System.out.println(uuid + " resume has been deleted");
-            return;
-        }
-        printResumeMissing(uuid);
+    protected void deleteResume(int index) {
+        storage[index] = storage[countResume - 1];
+        storage[countResume - 1] = null;
+        countResume--;
+        sort(storage);
     }
 
     @Override
