@@ -27,17 +27,16 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     public void save(Resume r) {
+        int index = getIndex(r.getUuid());
         if (countResume == storage.length) {
             System.out.println(r.getUuid() + " resume cannot be saved there is no place in the database");
-        } else if (getIndex(r.getUuid()) >= 0) {
+        } else if (index >= 0) {
             System.out.println(r.getUuid() + " is already in the database");
         } else {
-            saveResume(r);
+            saveResume(r, index);
             System.out.println(r.getUuid() + " resume saved to database");
         }
     }
-
-    public abstract void saveResume(Resume r);
 
     public Resume get(String uuid) {
         int index = getIndex(uuid);
@@ -59,8 +58,6 @@ public abstract class AbstractArrayStorage implements Storage {
         printResumeMissing(uuid);
     }
 
-    protected abstract void deleteResume(int index);
-
     public Resume[] getAll() {
         return Arrays.copyOf(storage, countResume);
     }
@@ -72,5 +69,10 @@ public abstract class AbstractArrayStorage implements Storage {
     protected void printResumeMissing(String uuid) {
         System.out.println(uuid + " there is no resume in the database");
     }
+
     protected abstract int getIndex(String uuid);
+
+    public abstract void saveResume(Resume r, int index);
+
+    protected abstract void deleteResume(int index);
 }
