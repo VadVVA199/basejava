@@ -14,19 +14,15 @@ public class MainTestSortedArrayStorage {
         int[] numericPartResumeNumbers = {8, 1, 9, 5, 4, 3, 2};
 
         for (int numericPartResumeNumber : numericPartResumeNumbers) {
-            Resume resume = new Resume();
-            resume.setUuid("uuid" + numericPartResumeNumber);
+            Resume resume = new Resume("uuid" + numericPartResumeNumber);
             ARRAY_STORAGE.save(resume);
         }
 
         printLineArray();
 
-        Resume r1 = new Resume();
-        r1.setUuid("uuid1");
-        Resume r4 = new Resume();
-        r4.setUuid("uuid2");
-        Resume r5 = new Resume();
-        r5.setUuid("uuid8");
+        Resume r1 = new Resume("uuid1");
+        Resume r4 = new Resume("uuid2");
+        Resume r5 = new Resume("uuid8");
 
         ARRAY_STORAGE.save(r1);
 
