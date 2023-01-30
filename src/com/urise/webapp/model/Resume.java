@@ -19,7 +19,7 @@ public class Resume implements Comparable<Resume> {
     }
 
     public String getUuid() {
-        return uuid;
+        return this.uuid;
     }
 
     @Override
