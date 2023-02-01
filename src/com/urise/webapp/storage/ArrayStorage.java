@@ -17,7 +17,8 @@ public class ArrayStorage extends AbstractArrayStorage {
         countResume--;
     }
 
-    protected int getIndex(String uuid) {
+    @Override
+    protected Object getSearchKey(String uuid) {
         int index = -1;
         for (int i = 0; i < countResume; i++) {
             if (storage[i].getUuid().equals(uuid)) {
@@ -25,5 +26,11 @@ public class ArrayStorage extends AbstractArrayStorage {
             }
         }
         return index;
+    }
+
+    @Override
+    protected boolean isExist(String uuid) {
+        int index = (int) getSearchKey(uuid);
+        return index != -1;
     }
 }

@@ -1,7 +1,5 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exception.ExistStorageException;
-import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 import java.util.Arrays;
@@ -20,44 +18,27 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public void updateResume(Resume r) {
-        int index = getIndex(r.getUuid());
-        if (index < 0) {
-            throw new NotExistStorageException(r.getUuid());
-        }
-        storage[index] = r;
+    public void doUpdate(Object searchKey, Resume r) {
+        storage[(int) searchKey] = r;
     }
 
     @Override
-    public void saveResumeStorage(Resume r) {
-        int index = getIndex(r.getUuid());
+    public void doSave(Object searchKey, Resume r) {
         if (countResume == storage.length) {
             throw new StorageException(r.getUuid() + " resume cannot be saved there " +
                     "is no place in the database", r.getUuid());
-        } else if (index >= 0) {
-            throw new ExistStorageException(r.getUuid());
-        } else {
-            saveResume(r, index);
         }
+        saveResume(r, (int) searchKey);
     }
 
     @Override
-    public Resume getResume(String uuid) {
-        int index = getIndex(uuid);
-        if (index != -1) {
-            return storage[index];
-        }
-        throw new NotExistStorageException(uuid);
+    public Resume doGet(Object searchKey) {
+       return storage[(int) searchKey];
     }
 
     @Override
-    public void deleteResume(String uuid) {
-        int index = getIndex(uuid);
-        if (index >= 0) {
-            deleteResume(index);
-            return;
-        }
-        throw new NotExistStorageException(uuid);
+    public void doDelete(Object searchKey) {
+        deleteResume((int) searchKey);
     }
 
     @Override
@@ -69,8 +50,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     public int sizeStorage() {
         return countResume;
     }
-
-    protected abstract int getIndex(String uuid);
 
     protected abstract void saveResume(Resume r, int index);
 
