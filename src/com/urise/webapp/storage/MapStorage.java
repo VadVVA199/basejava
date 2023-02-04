@@ -7,7 +7,7 @@ import java.util.TreeMap;
 
 public class MapStorage extends AbstractStorage {
 
-    Map<String, Resume> storage = new TreeMap<>();
+    private final Map<String, Resume> storage = new TreeMap<>();
 
     @Override
     protected void clearStorage() {
@@ -21,9 +21,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected void doSave(Object searchKey, Resume r) {
-        if (searchKey == null) {
-            storage.put(r.getUuid(), r);
-        }
+        storage.put(r.getUuid(), r);
     }
 
     @Override
@@ -48,10 +46,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected Object getSearchKey(String uuid) {
-        if (storage.containsKey(uuid)) {
-            return uuid;
-        }
-        return null;
+        return uuid;
     }
 
     @Override
