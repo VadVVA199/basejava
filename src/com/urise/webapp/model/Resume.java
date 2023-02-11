@@ -1,6 +1,5 @@
 package com.urise.webapp.model;
 
-import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -11,7 +10,7 @@ public class Resume implements Comparable<Resume> {
     // Unique identifier
     private final String uuid;
     private final String fullName;
-    private final String key;
+    private final Integer keyResumeMap;
 
     public Resume() {
         this(UUID.randomUUID().toString(), "");
@@ -20,7 +19,13 @@ public class Resume implements Comparable<Resume> {
     public Resume(String uuid, String fullName) {
         this.uuid = uuid;
         this.fullName = fullName;
-        this.key = fullName + " " + new Date();
+        String [] fields = {uuid,fullName};
+        int rate = 31;
+        int key = 1;
+        for (String field : fields) {
+            key *= rate + field.hashCode();
+        }
+        this.keyResumeMap = key;
     }
 
     public String getUuid() {
@@ -31,8 +36,8 @@ public class Resume implements Comparable<Resume> {
         return fullName;
     }
 
-    public String getKey() {
-        return key;
+    public int getKeyResumeMap() {
+        return keyResumeMap;
     }
 
     @Override
