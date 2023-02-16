@@ -4,9 +4,9 @@ import com.urise.webapp.model.Resume;
 
 import java.util.*;
 
-public class MapNameStorage extends AbstractStorage {
+public class MapResumeStorage extends AbstractStorage {
 
-    private final Map<Integer, Resume> storage = new HashMap<>();
+    private final Map<String, Resume> storage = new HashMap<>();
 
     @Override
     protected void clearStorage() {
@@ -15,22 +15,22 @@ public class MapNameStorage extends AbstractStorage {
 
     @Override
     protected void doUpdate(Object searchKey, Resume r) {
-        storage.replace((Integer) searchKey, r);
+        storage.replace(((Resume) searchKey).getUuid(), r);
     }
 
     @Override
     protected void doSave(Object searchKey, Resume r) {
-        storage.put(r.getKeyResumeMap(), r);
+        storage.put(r.getUuid(), r);
     }
 
     @Override
     protected Resume doGet(Object searchKey) {
-        return storage.get((Integer) searchKey);
+        return storage.get(((Resume) searchKey).getUuid());
     }
 
     @Override
     protected void doDelete(Object searchKey) {
-        storage.remove((Integer) searchKey);
+        storage.remove(((Resume) searchKey).getUuid());
     }
 
     @Override
@@ -45,17 +45,12 @@ public class MapNameStorage extends AbstractStorage {
 
     @Override
     protected Object getSearchKey(String uuid) {
-        for (Map.Entry<Integer, Resume> resume : storage.entrySet()) {
-            if (resume.getValue().getUuid().equals(uuid)) {
-                return resume.getKey();
-            }
-        }
-        return null;
+        return storage.get(uuid);
     }
 
     @Override
     protected boolean isExist(String uuid) {
-        for (Map.Entry<Integer, Resume> resume : storage.entrySet()) {
+        for (Map.Entry<String, Resume> resume : storage.entrySet()) {
             if (resume.getValue().getUuid().equals(uuid)) {
                 return true;
             }
